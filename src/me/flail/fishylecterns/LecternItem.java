@@ -1,13 +1,9 @@
 package me.flail.fishylecterns;
 
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.block.Lectern;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import me.flail.fishylecterns.tools.Logger;
 
@@ -42,22 +38,5 @@ public class LecternItem extends Logger {
 		return lecternItem;
 	}
 
-	public static Lectern setLecternData(Lectern lectern, String tag, String data) {
-		PersistentDataContainer dataContainer = lectern.getPersistentDataContainer();
-		NamespacedKey nKey = new NamespacedKey(plugin, plugin.nKey.getKey() + "-" + tag);
-
-		dataContainer.set(nKey, PersistentDataType.STRING, data);
-
-		lectern.update(true);
-		return lectern;
-	}
-
-	public static String getLecternData(Lectern lectern, String tag) {
-		PersistentDataContainer dataContainer = lectern.getPersistentDataContainer();
-		NamespacedKey nKey = new NamespacedKey(plugin, plugin.nKey.getKey() + "-" + tag);
-
-		return dataContainer.has(nKey, PersistentDataType.STRING) ? dataContainer.get(nKey, PersistentDataType.STRING)
-				: null;
-	}
 
 }

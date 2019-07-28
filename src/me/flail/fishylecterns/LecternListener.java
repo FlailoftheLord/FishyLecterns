@@ -1,6 +1,5 @@
 package me.flail.fishylecterns;
 
-import org.bukkit.Material;
 import org.bukkit.block.Lectern;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,23 +20,7 @@ public class LecternListener extends Logger implements Listener {
 		ItemStack book = event.getBook();
 		Lectern lectern = event.getLectern();
 
-		String lecternData = LecternItem.getLecternData(lectern, plugin.lecternDataTag);
-		if (lecternData != null) {
-			if (!player.hasPermission("fishylecterns.use")) {
-				event.setCancelled(true);
 
-				player.sendMessage(chat("&cYou can't use that Lectern!"));
-				return;
-			}
-
-			plugin.server.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-
-				lectern.getInventory().clear();
-				lectern.getInventory().addItem(book);
-				lectern.update();
-			}, 6L);
-
-		}
 
 	}
 
@@ -54,13 +37,6 @@ public class LecternListener extends Logger implements Listener {
 			if (player.hasPermission("fishylecterns.use")) {
 				Lectern lectern = (Lectern) event.getBlock().getState();
 
-				lectern.getInventory().addItem(new ItemStack(Material.DIAMOND_BLOCK));
-				lectern.update();
-
-				console("is a fishy one");
-
-				lectern = LecternItem.setLecternData(lectern, plugin.lecternDataTag, "Fishy Lectern");
-				lectern.update();
 			}
 
 		}
@@ -73,11 +49,11 @@ public class LecternListener extends Logger implements Listener {
 		if ((event.getBlock() instanceof Lectern) && player.hasPermission("fishylecterns.use")) {
 			Lectern lectern = (Lectern) event.getBlock().getState();
 
-			if (LecternItem.getLecternData(lectern, plugin.lecternDataTag) != null) {
-				event.setDropItems(false);
 
-				LecternItem.newLectern().giveToPlayer(player);
-			}
+			event.setDropItems(false);
+
+			LecternItem.newLectern().giveToPlayer(player);
+
 
 		}
 
