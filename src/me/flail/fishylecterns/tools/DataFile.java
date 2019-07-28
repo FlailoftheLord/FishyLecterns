@@ -13,12 +13,25 @@ import org.bukkit.configuration.file.YamlConfiguration;
  * @author FlailoftheLord
  */
 public class DataFile extends Logger {
-	private File file;
-	private FileConfiguration config = new YamlConfiguration();
+	private static File file;
+	private static FileConfiguration config = new YamlConfiguration();
 
 	public DataFile(String path) {
+		new DataFile(path, false);
+	}
+
+	/**
+	 * @param isExternal
+	 *                       whether the File location should be grabbed from outside the Plugin's data
+	 *                       folder.
+	 */
+	public DataFile(String path, boolean isExternal) {
+		if (!isExternal) {
+			path = plugin.getDataFolder() + "/" + path;
+		}
+
 		try {
-			file = new File(plugin.getDataFolder() + "/" + path);
+			file = new File(path);
 			if (!file.exists()) {
 
 				try {
@@ -32,6 +45,10 @@ public class DataFile extends Logger {
 			config.load(file);
 		} catch (Exception e) {
 		}
+	}
+
+	public static DataFile fromFile(File externalFile) {
+		return new DataFile(externalFile.getPath(), true);
 	}
 
 	public String name() {

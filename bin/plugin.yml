@@ -26,6 +26,10 @@ permissions:
   fishylecterns.use:
     description: permission to interact with these fishy objects
     default: true
+    
+  fishylecterns.useitem:
+    description: permission to place and destroy FishyLecterns
+    default: op
   fishylecterns.command:
     description: permission to use the command to get a lecturn or reload the plugin
     default: op

@@ -2,6 +2,7 @@ package me.flail.fishylecterns;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -36,6 +37,7 @@ public class FishyLecterns extends JavaPlugin {
 
 		server.getPluginManager().registerEvents(new LecternListener(), this);
 		logger.console("registered Lectern Listener...");
+		loadLecternsFromFile();
 		registerCommands();
 		logger.nl();
 		logger.console(" &3Fishy&cLecterns");
@@ -65,6 +67,14 @@ public class FishyLecterns extends JavaPlugin {
 		logger.console("&aplugin reloaded!");
 	}
 
+	public void loadLecternsFromFile() {
+		for (World world : server.getWorlds()) {
+
+			new LecternLocations(world).saveData();
+		}
+
+	}
+
 	private void registerCommands() {
 		Logger logger = new Logger();
 
@@ -83,7 +93,7 @@ public class FishyLecterns extends JavaPlugin {
 			String defaultInfo = logger.chat("&3Fishy&cLecterns &7v" + getDescription().getVersion() + " &2by FlailoftheLord.");
 			if (!operator.hasPermission("fishylecterns.command")) {
 
-				operator.sendMessage(logger.chat(config.get("NoPermission").toString()));
+				operator.sendMessage(logger.chat(config.getString("NoPermission")));
 				return true;
 			}
 
@@ -99,12 +109,12 @@ public class FishyLecterns extends JavaPlugin {
 				case "get":
 					LecternItem.newLectern().giveToPlayer(operator);
 
-					operator.sendMessage(logger.chat("&aYou just got a &3Fishy&cLectern."));
+					operator.sendMessage(logger.chat(config.getString("LecternItemGiven")));
 					break;
 				case "reload":
 					reload();
 
-					operator.sendMessage(logger.chat("&aFishyLecterns reloaded!"));
+					operator.sendMessage(logger.chat(config.getString("PluginReloaded")));
 					break;
 
 				}
@@ -114,7 +124,7 @@ public class FishyLecterns extends JavaPlugin {
 			return true;
 		}
 
-		logger.console("&cYou must use this command in-game!");
+		logger.console(config.getString("MustUseCommandInGame"));
 		return true;
 	}
 

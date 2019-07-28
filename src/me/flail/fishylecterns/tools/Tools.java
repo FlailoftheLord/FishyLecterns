@@ -15,7 +15,7 @@ public class Tools {
 	protected static FishyLecterns plugin = FishyLecterns.getPlugin(FishyLecterns.class);
 
 	public String chat(String message) {
-		return ChatColor.translateAlternateColorCodes('&', message);
+		return ChatColor.translateAlternateColorCodes('&', message.replace("%prefix%", plugin.getConfig().getString("Prefix", "")));
 	}
 
 	/**
@@ -36,6 +36,7 @@ public class Tools {
 				}
 			}
 		}
+
 		return chat(message);
 	}
 

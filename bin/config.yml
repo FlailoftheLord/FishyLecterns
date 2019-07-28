@@ -14,12 +14,12 @@
 #==================================================================#
 #-----------------------------------------------------------------
 # remember, you can assign the permission `fishylecterns.bypass` to allow a player to bypass any restrictions.
+#-----------------------------------------------------------------
 
 # Custom ID tag
 # this is used to differentiate a fishy one from a normal Lectern.
-# This is stored internally on the Lectern Tile Entity and cannot be viewed 
-# or modified in-game by a player without the use of mods/external tools.
-# If you change this, any lecterns with the old ID will cease to work, you will have to replace them with new Lectern Items.
+# This is stored internally in the world's data and cannot be viewed 
+# or modified in-game by a player.
 LecternUUID: "fishy-lectern"
 
 # the name of the item which you get via command.
@@ -28,7 +28,20 @@ LecternItemName: "&3Fishy&cLectern"
 # Should players be able to drop books taken from a Fishy Lectern?
 CanDropLecternBook: false
 
-# Maximum number of books from a unique lectern in a player's inventory at one time.
-MaxLecternBooksInInventory: 1
+# Can a player have more than one book from a unique lectern in their inventory at one time?
+CanHaveMultipleBooks: false
 
-NoPermission: "&cYou don't have permission for this!"
+# have the player hear an errie noise when they take the book
+BookRegenerateSound: ""
+
+# Messages can be customized here
+Prefix: "&8(&3&lF&c&lL&8)"
+NoPermission: "%prefix% &cYou do not posess enough power to wield this!"
+LecternPlaced: "%prefix% &aYou smell something &3&oFishy &r&aabout this &cLectern..."
+LecternRemoved: "%prefix% &aYou have removed a great evil from this world!"
+LecternItemGiven: "%prefix% &aYou just got a very &3&oFishy looking Lectern."
+AlreadyHaveBook: "%prefix% &c&oThis book is too stubborn, it teleports back to the Lectern."
+CannotDropBook: "%prefix% &e&oThe book magically springs back into your inventory!"
+PluginReloaded: "%prefix% &3&lFishy&c&lLecterns &areloaded successfully!"
+MustUseCommandInGame: "&cYou must use this command in-game!"
+
