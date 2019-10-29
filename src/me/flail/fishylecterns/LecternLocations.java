@@ -20,6 +20,7 @@ public class LecternLocations extends Logger {
 
 	private Set<Location> lecterns;
 	private DataFile storage;
+	private World world;
 
 	/**
 	 * Gets a set of all FishyLecterns for this world.
@@ -29,7 +30,7 @@ public class LecternLocations extends Logger {
 	 */
 	@SuppressWarnings("unchecked")
 	public LecternLocations(World world) {
-		storage = new DataFile(world.getName() + "/fishylecterns.yml", true);
+		storage = new DataFile(world.getWorldFolder() + "/fishylecterns.yml", true);
 		lecterns = new HashSet<>();
 
 		if (storage.hasValue("LecternLocations")) {
@@ -37,6 +38,10 @@ public class LecternLocations extends Logger {
 		}
 
 		saveData();
+	}
+
+	public World getWorld() {
+		return world;
 	}
 
 	public void addLectern(Location location) {
