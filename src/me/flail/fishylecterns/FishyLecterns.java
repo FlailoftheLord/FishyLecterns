@@ -63,6 +63,9 @@ public class FishyLecterns extends JavaPlugin {
 		onLoad();
 		onEnable();
 
+		reloadConfig();
+		config = getConfig();
+
 		logger.nl();
 		logger.console("&aplugin reloaded!");
 	}
