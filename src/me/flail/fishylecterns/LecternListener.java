@@ -1,6 +1,7 @@
 package me.flail.fishylecterns;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Lectern;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +23,7 @@ public class LecternListener extends Logger implements Listener {
 		Lectern lectern = event.getLectern();
 
 
-		LecternLocations locations = new LecternLocations(player.getWorld());
+		LecternLocations locations = new LecternLocations(event.getLectern().getWorld());
 
 		if (locations.hasLectern(lectern.getLocation())) {
 			if (!player.hasPermission("fishylecterns.use")) {
@@ -57,13 +58,21 @@ public class LecternListener extends Logger implements Listener {
 
 				lectern.getSnapshotInventory().addItem(bookClone);
 				lectern.update();
+
+				try {
+					lectern.getWorld().playSound(lectern.getLocation(),
+							Sound.valueOf(plugin.config.get("BookRegenerateSound").toString().toUpperCase()), 1, 0);
+
+				} catch (Exception e) {
+					console("&cInvalid sound enum for config value&8: &eBookRegenerateSound");
+				}
 			}, 6L);
 
 		}
 
 	}
 
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.LOW)
 	public void onPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		ItemStack item = event.getItemInHand();
@@ -80,15 +89,16 @@ public class LecternListener extends Logger implements Listener {
 			locations.addLectern(event.getBlock().getLocation());
 
 			player.sendMessage(chat(plugin.config.getString("LecternPlaced")));
+			return;
 		}
 
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOW)
 	public void onBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		if (event.getBlock().getType() == Material.LECTERN) {
-			LecternLocations locations = new LecternLocations(player.getWorld());
+			LecternLocations locations = new LecternLocations(event.getBlock().getWorld());
 
 			if (locations.hasLectern(event.getBlock().getLocation())) {
 				locations.removeLectern(event.getBlock().getLocation());
