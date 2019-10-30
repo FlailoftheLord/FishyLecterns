@@ -31,6 +31,11 @@ public class LecternLocations extends Logger {
 	@SuppressWarnings("unchecked")
 	public LecternLocations(World world) {
 		storage = new DataFile(world.getWorldFolder() + "/fishylecterns.yml", true);
+
+		if (plugin.isLocalStorage) {
+			storage = new DataFile("data/" + world.getName() + "/fishylecterns.yml");
+		}
+
 		lecterns = new HashSet<>();
 
 		if (storage.hasValue("LecternLocations")) {

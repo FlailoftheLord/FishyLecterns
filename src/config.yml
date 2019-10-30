@@ -22,6 +22,9 @@
 # or modified in-game by a player.
 LecternUUID: "fishy-lectern"
 
+# Setting to true will store the lectern data inside  the plugin's data folder rather than in the World's directory.
+LocalDataStorage: false
+
 # the name of the item which you get via command.
 LecternItemName: "&3Fishy&cLectern"
 

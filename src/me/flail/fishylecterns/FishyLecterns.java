@@ -19,6 +19,7 @@ public class FishyLecterns extends JavaPlugin {
 	public NamespacedKey nKey = new NamespacedKey(this, "FishyLecterns");
 
 	public String lecternDataTag;
+	public boolean isLocalStorage;
 
 	@Override
 	public void onLoad() {
@@ -33,7 +34,8 @@ public class FishyLecterns extends JavaPlugin {
 	public void onEnable() {
 		Logger logger = new Logger();
 
-		lecternDataTag = config.get("LecternUUID").toString();
+		lecternDataTag = config.get("LecternUUID", "fishy-lectern").toString();
+		isLocalStorage = config.getBoolean("LocalDataStorage", false);
 
 		server.getPluginManager().registerEvents(new LecternListener(), this);
 		logger.console("registered Lectern Listener...");
