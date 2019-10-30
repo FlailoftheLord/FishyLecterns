@@ -17,7 +17,7 @@ import me.flail.fishylecterns.tools.Logger;
 
 public class LecternListener extends Logger implements Listener {
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onInteract(PlayerTakeLecternBookEvent event) {
 		Player player = event.getPlayer();
 		Lectern lectern = event.getLectern();
@@ -34,17 +34,14 @@ public class LecternListener extends Logger implements Listener {
 				return;
 			}
 
-			ItemStack book = event.getBook();
-			book = addTag(book, "fishy-book", lectern.getLocation().toString());
+			if (!plugin.config.getBoolean("CanHaveMultipleBooks", true) && !player.hasPermission("fishylecterns.bypass")) {
 
-			if (!plugin.config.getBoolean("CanHaveMultipleBooks") && !player.hasPermission("fishylecterns.bypass")) {
 				for (ItemStack invItem : player.getInventory().getContents().clone()) {
 
-					if (hasTag(invItem, "fishy-book")&&getTag(invItem, "fishy-book").equals(lectern.getLocation().toString())) {
+					if (hasTag(invItem, "fishy-book") && getTag(invItem, "fishy-book").equals(lectern.getLocation().toString())) {
 						event.setCancelled(true);
 
 						player.sendMessage(chat(plugin.config.getString("AlreadyHaveBook")));
-						book = removeTag(book, "fishy-book");
 						player.closeInventory();
 						return;
 					}
@@ -53,15 +50,24 @@ public class LecternListener extends Logger implements Listener {
 
 			}
 
+			ItemStack book = event.getBook();
+			book = addTag(book, "fishy-book", lectern.getLocation().toString());
+			book.setAmount(1);
+
 			final ItemStack bookClone = book.clone();
 			plugin.server.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+				bookClone.setAmount(1);
 
 				lectern.getSnapshotInventory().addItem(bookClone);
 				lectern.update();
 
+				String sound = plugin.config.get("BookRegenerateSound").toString().toUpperCase();
+				if (sound.isEmpty()) {
+					return;
+				}
 				try {
 					lectern.getWorld().playSound(lectern.getLocation(),
-							Sound.valueOf(plugin.config.get("BookRegenerateSound").toString().toUpperCase()), 1, 0);
+							Sound.valueOf(sound), 1, 0);
 
 				} catch (Exception e) {
 					console("&cInvalid sound enum for config value&8: &eBookRegenerateSound");
