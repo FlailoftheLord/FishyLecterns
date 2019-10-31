@@ -55,6 +55,10 @@ public class DataFile extends Logger {
 		return file.getName().replaceFirst("/", "");
 	}
 
+	public File getFile() {
+		return file;
+	}
+
 	public void load() {
 		try {
 			config.save(file);

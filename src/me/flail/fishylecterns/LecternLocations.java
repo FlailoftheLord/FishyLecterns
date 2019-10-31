@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 
 import me.flail.fishylecterns.tools.DataFile;
@@ -30,10 +31,11 @@ public class LecternLocations extends Logger {
 	 */
 	@SuppressWarnings("unchecked")
 	public LecternLocations(World world) {
-		storage = new DataFile(world.getWorldFolder() + "/fishylecterns.yml", true);
 
 		if (plugin.isLocalStorage) {
 			storage = new DataFile("data/" + world.getName() + "/fishylecterns.yml");
+		} else {
+			storage = new DataFile(world.getWorldFolder() + "/fishylecterns.yml", true);
 		}
 
 		lecterns = new HashSet<>();
@@ -42,7 +44,10 @@ public class LecternLocations extends Logger {
 			lecterns.addAll((Set<Location>) storage.getObj("LecternLocations"));
 		}
 
-		saveData();
+	}
+
+	public void delete() {
+		storage.getFile().delete();
 	}
 
 	public World getWorld() {
@@ -66,6 +71,20 @@ public class LecternLocations extends Logger {
 	}
 
 	protected void saveData() {
+		for (Location l : lecterns.toArray(new Location[] {})) {
+			if (!(l.getBlock().getType().equals(Material.LECTERN))) {
+				lecterns.remove(l);
+
+				continue;
+			}
+
+		}
+
+		if (lecterns.isEmpty()) {
+			delete();
+
+			return;
+		}
 		storage.setValue("LecternLocations", lecterns);
 	}
 
