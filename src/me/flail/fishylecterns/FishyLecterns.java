@@ -2,7 +2,6 @@ package me.flail.fishylecterns;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,7 +38,7 @@ public class FishyLecterns extends JavaPlugin {
 
 		server.getPluginManager().registerEvents(new LecternListener(), this);
 		logger.console("registered Lectern Listener...");
-		loadLecternsFromFile();
+
 		registerCommands();
 		logger.nl();
 		logger.console(" &3Fishy&cLecterns");
@@ -72,13 +71,6 @@ public class FishyLecterns extends JavaPlugin {
 		logger.console("&aplugin reloaded!");
 	}
 
-	public void loadLecternsFromFile() {
-		for (World world : server.getWorlds()) {
-
-			new LecternLocations(world).saveData();
-		}
-
-	}
 
 	private void registerCommands() {
 		Logger logger = new Logger();

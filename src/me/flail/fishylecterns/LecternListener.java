@@ -23,7 +23,7 @@ public class LecternListener extends Logger implements Listener {
 		Lectern lectern = event.getLectern();
 
 
-		LecternLocations locations = new LecternLocations(event.getLectern().getWorld());
+		LecternLocations locations = new LecternLocations(player.getWorld());
 
 		if (locations.hasLectern(lectern.getLocation())) {
 			if (!player.hasPermission("fishylecterns.use")) {
