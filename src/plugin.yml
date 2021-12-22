@@ -7,14 +7,11 @@ website: https://www.github.com/flailofthelord
 # no touchy pls
 main: me.flail.fishylecterns.FishyLecterns
 api-version: 1.14
-version: 1.2
+version: 1.3
 softdepend:
-  - MicroTools
-  - MicroBlocks
   - WorldGuard
   
 commands:
-  
   fishylecterns:
     description: main command
     usage: /fishylecterns [get:reload]
@@ -22,18 +19,15 @@ commands:
 
     
 permissions:
-  
   fishylecterns.use:
     description: permission to interact with these fishy objects
     default: true
-    
   fishylecterns.useitem:
     description: permission to place and destroy FishyLecterns
     default: op
   fishylecterns.command:
     description: permission to use the command to get a lecturn or reload the plugin
     default: op
-    
   fishylecterns.bypass:
     description: bypass the limits and restrictions of this plugin
     default: op
