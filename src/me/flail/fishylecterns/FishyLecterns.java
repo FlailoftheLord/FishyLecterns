@@ -1,5 +1,7 @@
 package me.flail.fishylecterns;
 
+import java.util.Set;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -71,11 +73,14 @@ public class FishyLecterns extends JavaPlugin {
 		logger.console("&aplugin reloaded!");
 	}
 
-
 	private void registerCommands() {
 		Logger logger = new Logger();
 
-		for (String cmd : getDescription().getCommands().keySet()) {
+		Set<String> cmds = getDescription().getCommands().keySet();
+		if (cmds.isEmpty())
+			return;
+
+		for (String cmd : cmds) {
 			getCommand(cmd).setExecutor(this);
 			logger.console("&7registered command&8: &e/" + cmd);
 		}
